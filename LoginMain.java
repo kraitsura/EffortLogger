@@ -60,7 +60,10 @@ public class LoginMain extends Application {
             		}
             	}
             	
-            	if (match == true) {
+            	if (usernameText1.getText().equals("") || passwordText1.getText().equals("")) {
+            		loginWarning.setText("One or more fields are empty.");
+            	}
+            	else if (match == true) {
             		//proceed to dashboard
             		loginWarning.setText("Login accepted.");
             	} else {
@@ -115,7 +118,7 @@ public class LoginMain extends Application {
             	createWarning.setText("");
                 //search list to see if username is already in list
             	//check if one of the text boxes is empty or not
-            	if (nameText.getText() == "" || emailText.getText() == "" || usernameText2.getText() == "" || passwordText2.getText() == "") {
+            	if (nameText.getText().equals("") || emailText.getText().equals("") || usernameText2.getText().equals("") || passwordText2.getText().equals("")) {
             		createWarning.setText("One or more fields are empty.");
             	} else {
             		for (int i = 0; i < users.size(); i++) {

@@ -122,7 +122,7 @@ public class LoginMain extends Application {
             		createWarning.setText("One or more fields are empty.");
             	} else {
             		for (int i = 0; i < users.size(); i++) {
-            			if (users.get(i).getUsername().equals(usernameText1.getText())) {
+            			if (users.get(i).getUsername().equals(usernameText2.getText())) {
                 			match = true;
                 		}
             		}

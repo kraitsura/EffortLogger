@@ -10,9 +10,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
 
 public class EffortConsole {
-public static Scene start(Stage window)  {
+public static BorderPane start()  {
 
 		
 		//setting up BorderPane to add all the nodes into it
@@ -20,9 +21,9 @@ public static Scene start(Stage window)  {
 		
 		
 		//adding title of of EffortLogger Console to the top middle of the GridPane
-		Text EffortLoggerConsole = new Text("\t\t\t\tEffort Logger Console\n");
-		EffortLoggerConsole.setFont(Font.font(null, FontWeight.BOLD, 20));
-		EffortConsole.setTop(EffortLoggerConsole);
+//		Text EffortLoggerConsole = new Text("\t\t\t\tEffort Logger Console\n");
+//		EffortLoggerConsole.setFont(Font.font(null, FontWeight.BOLD, 20));
+//		EffortConsole.setTop(EffortLoggerConsole);
 		
 		//asking the user to select the task they want to work on
 		Text taskSelection = new Text("1. Please select the task that you will be working on.");
@@ -52,9 +53,18 @@ public static Scene start(Stage window)  {
 		stop.setText("Stop");
 		
 		//adding description of the work done text box
-		Text effortText = new Text("3. Describe what was done during this time.");
+		Text effortText = new Text("3. Fill out what you have done before pressing 'Stop'.");
 		effortText.setFont(Font.font(null, FontWeight.BOLD, 12));
 		
+		TextArea description = new TextArea();
+		description.setPromptText("Description");
+		description.setPrefWidth(225);
+        description.setPrefHeight(100);
+        
+        //adding save button for text description
+        Button save = new Button();
+        save.setText("Save");
+        
 		//adding grid pane to organize the nodes before adding it to border pane
 		GridPane leftBorder = new GridPane();
 		leftBorder.setHgap(4);
@@ -66,13 +76,14 @@ public static Scene start(Stage window)  {
 		leftBorder.add(start, 0, 3);
 		leftBorder.add(stop, 0, 4);
 		leftBorder.add(effortText, 0, 5);
-		
+		leftBorder.add(description, 0, 6);
+		leftBorder.add(save, 0, 7);
 		//adding everything to border pane
 		EffortConsole.setLeft(leftBorder);
 		
 		
-		Scene scene = new Scene(EffortConsole, 600,600);
-		return scene;
+		return EffortConsole;
 	
 }
+
 }

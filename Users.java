@@ -1,4 +1,4 @@
-package loginJavaFX;
+package asuHelloWorldJavaFX;
 public class Users {
 	private String name; 
 	private String email;

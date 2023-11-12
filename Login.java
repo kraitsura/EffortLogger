@@ -13,14 +13,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import java.util.Random;
 
 public class Login {
 	
 	static boolean match;
 	boolean empty;
+	public static ArrayList<Users> users = new ArrayList<>();
+	public static Users currentUser;
 	
 	public static Scene start(Stage window, Scene set) {
-			ArrayList<Users> users = new ArrayList<>();
+			
 	        Label heading = new Label();
 	        heading.setText("EffortLogger");
 	        
@@ -55,7 +58,7 @@ public class Login {
 	            	for (int i = 0; i < users.size(); i++) {
 	            		if ((users.get(i).getUsername().equals(usernameText1.getText())) && (users.get(i).getPassword().equals(passwordText1.getText()))) {
 	            			match = true;
-	            			
+	            			currentUser = users.get(i);
 	            		}
 	            	}
 	            	
@@ -129,9 +132,27 @@ public class Login {
 	            		}
 	            		if (match == false) {
 	            			//add to list
-	                		Users newUser = new Users(nameText.getText(), emailText.getText(), usernameText2.getText(), passwordText2.getText());
+	            			Random rand = new Random();
+	            			   
+	            	        // Generate random integers in range 0 to 999
+	            	        int rand_int = rand.nextInt(1000);
+	            	        //check if user code exists
+	            	        boolean match2 = true;
+	            	        while(match2)
+	            	        {
+	            	        	match2 = false;
+		            	        for (int i = 0; i < users.size(); i++) {
+			            			if (users.get(i).getCode() == rand_int) {
+			                			rand_int = rand.nextInt(1000); //make new code if user code exists
+			                			match2 = true;
+			                		}
+			            		}
+	            	        }
+	            	        
+	                		Users newUser = new Users(nameText.getText(), emailText.getText(), usernameText2.getText(), passwordText2.getText(), rand_int);
 	                		users.add(newUser);
-	                		createWarning.setText("Account created.");
+	                		createWarning.setText("Account created!! User Code: " + rand_int);
+	                		
 	            		} else {
 	            			//error message
 	                		createWarning.setText("Username already taken. Try again.");

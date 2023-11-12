@@ -51,6 +51,7 @@ public class Dashboard extends Application {
 		Scene out = Login.start(primaryStage, scene);
 		
 		//link scenes to each module
+				
 		dash.setBottom(addConsole(primaryStage, proj, eff, def));
 		dash.setLeft(addOptions(primaryStage, set, dat, out, scene));
 		dash.setCenter(dash());
@@ -125,8 +126,6 @@ public class Dashboard extends Application {
     	grid.add(home, 3, 3);
     	
     	return grid;
-    	
-   
     }
     
     //addConsole to display console options 
@@ -170,6 +169,7 @@ public class Dashboard extends Application {
     	Button setting = new Button();
 		Button logout = new Button();
 		Button userLogs = new Button();
+		Button poker = new Button();
 		Button home = new Button();
 		Text title = new Text("Options:");
 		
@@ -180,15 +180,20 @@ public class Dashboard extends Application {
 		
 		vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 		
+		VBox.setMargin(poker, new Insets(0, 0, 0, 8));
+    	vbox.getChildren().add(poker);
 		VBox.setMargin(userLogs, new Insets(0, 0, 0, 8));
 		vbox.getChildren().add(userLogs);
 		VBox.setMargin(setting, new Insets(0, 0, 0, 8));
     	vbox.getChildren().add(setting);
-    	VBox.setMargin(logout, new Insets(0, 0, 0, 8));
+    	VBox.setMargin(home, new Insets(0, 0, 0, 8));
     	vbox.getChildren().add(home);
     	VBox.setMargin(logout, new Insets(0, 0, 0, 8));
 		vbox.getChildren().add(logout);
 		
+		
+		poker.setText("P.Poker");
+		poker.setOnAction(e -> window.setScene(Poker.start(window, hom)));
 		userLogs.setText("Your Data");
 		userLogs.setOnAction(e -> window.setScene(dat));
 		setting.setText("Settings");
@@ -198,6 +203,7 @@ public class Dashboard extends Application {
 		home.setText("Home");
 		home.setOnAction(e -> window.setScene(hom));
 		
+		poker.setMaxSize(90, 90);
 		home.setMaxSize(90, 90);
 		userLogs.setMaxSize(90, 90);
 		setting.setMaxSize(90, 90);

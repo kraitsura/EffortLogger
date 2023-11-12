@@ -1,12 +1,19 @@
 package efV2;
 
+import java.time.LocalDate;
 //Orion Choy
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -15,6 +22,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class ProjectManagementConsole {
+	
+	// Testing date printing
+
+	private String name;
+	private LocalDate start;
+	private LocalDate end;
+	private String status;
+	private LocalDate initDate;
+	//
 	
 	private static List<ProjectList> projects = new ArrayList<>();
 	
@@ -25,11 +41,17 @@ public class ProjectManagementConsole {
 	    gridProjectMan.setPadding(new Insets(0, 10, 0, 10));
 
 	    // Initialize Buttons
-	    	Button createProjectText = new Button("Start a New Project");
 	    	Button createTask = new Button("OK");
-	    	Button assignTeam = new Button("Assign");
-	    	Button printButton = new Button("Print Ongoing Projects");
 	    	
+	    // DatePickers
+	    	DatePicker startDate = new DatePicker();
+	    	DatePicker endDate = new DatePicker();
+	    // DatePicker Text
+	    	Text startDateText = new Text("Start Date:");
+	    	Text endDateText = new Text("End Date:");
+	    // Current date getter
+	    	LocalDate currentDate = LocalDate.now();
+	    	 
 	    // Initialize TextFields
 	    	TextArea projectNameField = new TextArea();
 	    		projectNameField.setPrefWidth(200);
@@ -47,74 +69,101 @@ public class ProjectManagementConsole {
 	    		Text projectManDesc = new Text("Add or Manage Ongoing Projects");
 	    			projectMan.setFont(Font.font(null, FontWeight.BOLD, 20));
 	    		Text projectNameText = new Text("Enter Project Name:");
-	    	    Text taskUsers = new Text("Assign Team to Project: ");
+	    	    Text taskUsers = new Text("Assign Users to Project: ");
+	    	    Text manageProjects = new Text("Manage Ongoing Projects");
+
 	    
-	    // Will edit to pull teams from user accounts
-	        ComboBox<String> teamComboBox = new ComboBox<>();
-	   	    teamComboBox.getItems().addAll(
-	   	    		"Team1",
-	   	    		"Team2",
-	   	    		"Team3",
-    	    		"Team4"
-	   	    ); 
-	   
-	    // Start Building Page
-	    gridProjectMan.add(projectMan, 2, 0);				// Page Header
-	    gridProjectMan.add(projectManDesc, 2, 1);
-	    gridProjectMan.add(createProjectText, 2, 2);		// Create Project Button
-	    gridProjectMan.add(projectNameText, 2, 4);		// Ask for project name
-	    	projectNameText.setVisible(false);
-    	gridProjectMan.add(projectNameField, 2, 5);			// Text field for name
-    		projectNameField.setVisible(false);
-	    gridProjectMan.add(createTask, 2, 6);				// Button to create task
-	    	createTask.setVisible(false);
-	    gridProjectMan.add(taskUsers, 2, 8);				// Text to add users
-	    	taskUsers.setVisible(false);
-	    gridProjectMan.add(teamComboBox, 2, 9);
-	    	teamComboBox.setVisible(false);
-	    gridProjectMan.add(assignTeam, 2, 10);
-	    	assignTeam.setVisible(false);
-	    gridProjectMan.add(printButton, 8, 2);
-	       
-	    // Click create project button to open projectName text field
-	    createProjectText.setOnAction(event -> {
-	    	projectNameText.setVisible(true);
-		    projectNameField.setVisible(true);
-		    createTask.setVisible(true);
-	    });
-	    
-	    // Click OK button and add team dropdown opens up. Save project name to list
-	    createTask.setOnAction(event -> {
-	    	taskUsers.setVisible(true);
-	    	assignTeam.setVisible(true);
-	    	teamComboBox.setVisible(true);
-	    	
-	    	String projectName = projectNameField.getText();
-	    	if (!projectName.isEmpty()) {
-	    		ProjectList project = new ProjectList(projectName);
-	    		projects.add(project);	
-	    	}
-	    });
-	    
-	    // Hides all of the opened elements when you click assign button
-	    assignTeam.setOnAction(event -> {
-	    	projectNameText.setVisible(false);
-		    projectNameField.setVisible(false);
-		    createTask.setVisible(false);
-		    taskUsers.setVisible(false);
-	    	assignTeam.setVisible(false);
-	    	teamComboBox.setVisible(false);
-	    	projectNameField.clear();
-	    });
-	    
-	    //
-	    printButton.setOnAction(event -> {
-            for (ProjectList project : projects) {
-                System.out.println("Project: " + project.getProjectName());
-                System.out.println("Associated Team: Team");		// TODO Add team selection
-            }
-        });
-	
+	    // Potentially add managing to select project to edit
+	   	    ComboBox<String> manageProjectCombo = new ComboBox<>();	
+	   	    
+	   	    
+	   	// checkmenuitem for project user selection
+	   	    Menu userMenu = new Menu("Select Users");
+	   	    List<Users> usersList = Login.getUsersList();		// Get usersList from Login.java
+	        List<Users> selectedUsers = new ArrayList<>();
+	   	    // For each user in the userList, add them to the menu
+	   	    for(Users user : usersList) {
+	   	    	CheckMenuItem item = new CheckMenuItem(user.getName().toString());
+	   	    	userMenu.getItems().add(item);
+	   	    }
+	   	    // Couple of test users
+		   	    CheckMenuItem menuitem1 = new CheckMenuItem("User1"); 
+		        CheckMenuItem menuitem2 = new CheckMenuItem("User2"); 
+		        CheckMenuItem menuitem3 = new CheckMenuItem("User3"); 
+		        // add menu items to menu 
+		        userMenu.getItems().add(menuitem1); 
+		        userMenu.getItems().add(menuitem2); 
+		        userMenu.getItems().add(menuitem3);
+		        
+	   	// create a menubar 
+	        MenuBar menu_bar = new MenuBar(); 
+	    // add userMenu to menubar 
+	        menu_bar.getMenus().add(userMenu);
+	        
+	        String status = "Ongoing";				// TODO Make boolean Finished/Ongoing
+	   	   
+	   	    
+	   	// ORION NEW PAGE BUILDING //
+	   	gridProjectMan.add(projectMan, 0, 0);				// Page Header
+	   	gridProjectMan.add(projectManDesc, 0, 1);			// Page Description
+	   	gridProjectMan.add(projectNameText, 0, 2);			// Ask for project name
+	   	gridProjectMan.add(projectNameField, 0, 3);			// Text field for name
+	   	
+	   	gridProjectMan.add(startDateText, 4, 2);			// Date Pickers 
+	   	gridProjectMan.add(startDate, 4, 3);				//
+	   	gridProjectMan.add(endDateText, 4, 4);				//
+	   	gridProjectMan.add(endDate, 4, 5);					//
+	   	
+	   	gridProjectMan.add(taskUsers, 0, 4);				// Text to add users
+	   	gridProjectMan.add(menu_bar, 0, 5);					// Add menu to pick users  	
+	   	
+	   	gridProjectMan.add(createTask, 0, 6);				// Button to create task
+	   	// Click OK button and add team dropdown opens up. Save project name to list
+		    createTask.setOnAction(event -> {
+		    	// We check that all fields are completed
+		    	if(projectNameField.getText().isEmpty() || startDate.getValue() == null ||
+		    			endDate.getValue() == null) {
+		    		Alert alert = new Alert(AlertType.ERROR);
+		    				alert.setTitle("Error Message");
+		    				alert.setHeaderText(null);
+		    				alert.setContentText("Please fill all blank fields.");
+		    				alert.showAndWait();
+		    	}
+		    	else{
+		    		// Add data to new project
+		    		ProjectList project = new ProjectList(projectNameField.getText(), startDate.getValue(), 
+		    			endDate.getValue(), currentDate, status, selectedUsers);
+		    		projects.add(project);
+		    	}
+		    	// These two for loops are tests
+			    for (ProjectList project : projects) {
+	                System.out.println("Project: " + project.getProjectName());
+	                System.out.println("Project Start Date: " + project.getStartDate());
+	                System.out.println("Project End Date: " + project.getEndDate());
+	                System.out.println("Project Created Date: " + project.getCreatedDate());
+	                // Need to fix users
+	                
+	                for(Users user : usersList) {
+	           	    	CheckMenuItem item = new CheckMenuItem(user.getName().toString());
+	           	    	userMenu.getItems().add(item);
+	           	    	System.out.println("USERS TEST: " + user.getName().toString());
+	           	    }
+	            }
+			    for (MenuItem item : userMenu.getItems()) {
+		             if (item instanceof CheckMenuItem) {
+		                 CheckMenuItem checkItem = (CheckMenuItem) item;
+		                 checkItem.setSelected(false);
+		             }
+		         }
+		    	projectNameField.clear();
+		    });
+	   	
+	   	//-------------------------//
 	    return gridProjectMan;
+	}
+	
+	@Override
+	public String toString() {
+		return "ProjectName: " + name + ", Start Date: " + start + ", End Date: " + end + ", Created Date: " + initDate;
 	}
 }

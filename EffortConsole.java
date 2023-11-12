@@ -153,5 +153,8 @@ public class EffortConsole {
 		return EffortConsole;
 	
 }
-
+	//Kendra added what is below :)
+public static ArrayList<EffortData> getEffort() {
+	return effort;
+}
 }

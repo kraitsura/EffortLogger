@@ -194,6 +194,12 @@ public class Login {
         Scene scene = new Scene(root, 750,750);
         return scene;
 	}
+	
+	// Orion: Added getter for the userlist
+	public static ArrayList<Users> getUsersList() {
+		return users;
+	}
+	
 }
 
 

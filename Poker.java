@@ -508,35 +508,42 @@ public class Poker {
 		Button search = new Button("Search");
 		search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-            	
+            	ArrayList<EffortData> effortArray = EffortConsole.getEffort();
+            	resultList.clear();
+            	boolean match = false;
             	if (searchBar.getText().equals("")) {
             		warning.setText("Showing All Data");
             		//print results from all effort and defect arraylists using userCode
             		//@Kendra Newman add search results to resultList
             		
-            		
-            		
-            		Entry entry = new Entry("name", "description", 10);
-            		resultList.add(entry);
+            		//loop through entire effort array checking 
+            		for (int i = 0; i < effortArray.size(); i++) {
+            			if (user == effortArray.get(i).getUserCode()) {
+            				Entry entry = new Entry(effortArray.get(i).getTask(), effortArray.get(i).getDescription(), 666);
+                    		resultList.add(entry);
+            			}
+            		}
             	}
             	else {
             		String key = searchBar.getText();
             		
-            		//print results from all effort and defect arraylists using key and userCode
+            		///print results from all effort and defect arraylists using key and userCode
             		//@Kendra Newman add search results to resultList
             		
-            		
-            		
-            		
-            		
-            		
-            		
-            		
-            		
-            		
-            		Entry entry = new Entry(key, "description", 10);
-            		resultList.add(entry);
-            		
+            		for (int i = 0; i < effortArray.size(); i++) {
+            			if (user == effortArray.get(i).getUserCode()) {
+            				ArrayList<String> keywordList = effortArray.get(i).getKeywords();
+            				for (int j = 0; j < keywordList.size(); j++) {
+            					if (keywordList.get(j).toLowerCase().contains(key.toLowerCase())) {
+            						match = true;
+            					}
+            				}
+            				if (match == true) {
+            					Entry entry = new Entry(effortArray.get(i).getTask(), effortArray.get(i).getDescription(), 666);
+                        		resultList.add(entry);
+            				}
+            			}
+            		}
             	}
             }
         });

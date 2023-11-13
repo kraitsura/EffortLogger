@@ -54,15 +54,15 @@ public class DefectConsole {
         Label l1 = new Label("1) Select the project: ");
         Label l2 = new Label("1.a) Clear this project's defect log: ");
         Label l3 = new Label("2) Select a defect or create one:  ");
-        Label l4 = new Label("3) Define / Update current defect attributes: ");
+        Label l4 = new Label("2) Define / Update current defect attributes: ");
         Label l5 = new Label("Defect Name: ");
         Label l6 = new Label("Status: ");
         Label li1 = new Label("Closed");
-        Label l7 = new Label("4) Defect Symptoms / Cause / Resolution");
-        Label l8 = new Label("5) Step when Injected: ");
-        Label l9 = new Label("6) Step when removed: ");
-        Label l10 = new Label("7) Defect Category: ");
-        Label l11 = new Label("8) Fix: ");
+        Label l7 = new Label("3) Defect Symptoms / Cause / Resolution");
+        Label l8 = new Label("4) Step when Injected: ");
+        Label l9 = new Label("5) Step when removed: ");
+        Label l10 = new Label("6) Defect Category: ");
+        Label l11 = new Label("7) Fix: ");
 
         // comboboxes
         String projects[] = {"project1"};
@@ -120,8 +120,8 @@ public class DefectConsole {
 
         grid.add(l1,0,0);
         grid.add(c1,0,1);
-        grid.add(l3,0,2);
-        grid.add(c2,0,4);
+//        grid.add(l3,0,2);
+//        grid.add(c2,0,4);
         grid.add(l4,0,5);
         grid.add(l5,0,6);
         grid.add(defectName,0,7);

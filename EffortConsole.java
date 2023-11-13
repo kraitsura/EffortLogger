@@ -1,4 +1,4 @@
-package efV2;
+package Main;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 
-import efV2.Login;
+import Main.LoginMain;
 
 public class EffortConsole {
 	private static Instant startTimer;
@@ -40,8 +40,8 @@ public class EffortConsole {
 //		EffortConsole.setTop(EffortLoggerConsole);
 		
 		//asking the user to select the task they want to work on
-		if(Login.currentUser!=null) {
-			user = Login.currentUser.getCode();
+		if(LoginMain.currentUser!=null) {
+			user = LoginMain.currentUser.getCode();
 			data.setUser(user);
 		}
 		
@@ -124,6 +124,9 @@ public class EffortConsole {
             	endTimer = Instant.now();
             	Duration time = Duration.between(startTimer, endTimer);
             	data.setTime(time.toSecondsPart());
+            	
+            	effort.add(data);
+            	
             	taskBox.clear();
             	description.clear();
             	keywordBox.clear();

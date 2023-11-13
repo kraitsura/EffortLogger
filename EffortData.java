@@ -1,4 +1,6 @@
-package efV2;
+package Main;
+
+//Viet Le
 
 import java.util.ArrayList;
 
@@ -41,6 +43,7 @@ public class EffortData {
 		this.description = description;
 	}
 	public void addKeyword(String keyword) {
+		this.keyWords = new ArrayList<String>();
 		this.keyWords.add(keyword);
 	}
 	public void setUser(int code) {

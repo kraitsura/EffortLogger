@@ -1,4 +1,4 @@
-package efV2;
+package Main;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -50,8 +50,8 @@ public class Poker {
 	public static Scene start(Stage window, Scene set)  {
 		
 		selectScreen();
-		if(Login.currentUser!=null) {
-			user = Login.currentUser.getCode();
+		if(LoginMain.currentUser!=null) {
+			user = LoginMain.currentUser.getCode();
 		}
 		BorderPane poker = new BorderPane();
 		

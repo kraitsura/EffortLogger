@@ -1,4 +1,4 @@
-package efV2;
+package Main;
 
 import java.time.LocalDate;
 //Orion Choy
@@ -79,7 +79,7 @@ public class ProjectManagementConsole {
 	   	    
 	   	// checkmenuitem for project user selection
 	   	    Menu userMenu = new Menu("Select Users");
-	   	    List<Users> usersList = Login.getUsersList();		// Get usersList from Login.java
+	   	    List<Users> usersList = LoginMain.getUsersList();		// Get usersList from Login.java
 	        List<Users> selectedUsers = new ArrayList<>();
 	   	    // For each user in the userList, add them to the menu
 	   	    for(Users user : usersList) {

@@ -1,4 +1,4 @@
-package efV2;
+package Main;
 
 public class pokerEntry {
 	 private Entry main;

@@ -44,21 +44,17 @@ public class Dashboard extends Application {
 	public static Label hello = new Label();
 	public static Text none = new Text();
 	public static ArrayList<Timeline> timelines = new ArrayList<>();
-	public static ListView<Entry> resultView; 
-	public static ListView<Entry> viewCurProj;
-	public static ObservableList<Entry> resultList = FXCollections.observableArrayList();
-	public static ObservableList<Entry> curProjects = FXCollections.observableArrayList();
 	
 	
 	public static void main(String[] args) {
         launch(args);
     }
 	
-	public static void startAllTimeLines() {
-		resultView = resultPage(resultList, 1);
-		viewCurProj = resultPage(curProjects, 2);
-	}
-	
+//	public static void startAllTimeLines() {
+//		resultView = resultPage(resultList, 1);
+//		viewCurProj = resultPage(curProjects, 2);
+//	}
+//	
     
     public void start(Stage primaryStage) {
 
@@ -127,7 +123,13 @@ public class Dashboard extends Application {
 		
 		
 		//setup updates
-		startAllTimeLines();
+//		startAllTimeLines();
+		
+		ObservableList<Entry> resultList = FXCollections.observableArrayList();
+		ObservableList<Entry> curProjects = FXCollections.observableArrayList();
+		
+		ListView<Entry> resultView = resultPage(resultList, 1);
+		ListView<Entry> viewCurProj = resultPage(curProjects, 2);
         
 		VBox results = new VBox();
 		results.getChildren().addAll(recent, resultView);
@@ -224,7 +226,7 @@ public class Dashboard extends Application {
         });
 		
 		if(flag == 1) {
-			ArrayList<EffortData> effortArray = EffortConsole.getEffort();
+			
 			ArrayList<DefectData> defectArray = DefectConsole.getDefect();
 			
 			// Set up a Timeline to update the list every 10 seconds
@@ -232,6 +234,7 @@ public class Dashboard extends Application {
 	        Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
 	            // Update the ObservableList on the JavaFX Application Thread
 	            Platform.runLater(() -> {
+	            	ArrayList<EffortData> effortArray = EffortConsole.getEffort();
 
 	                // Update the ObservableList on a different thread
 	                rList.clear();
@@ -256,14 +259,14 @@ public class Dashboard extends Application {
 	        timelines.add(timeline);
 	        
 		}else if(flag == 2) {
-			ArrayList<ProjectList> projects = ProjectManagementConsole.getProjList();
+			
 			
 			// Set up a Timeline to update the list every 10 seconds
 	        Duration duration = Duration.seconds(2);
 	        Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
 	            // Update the ObservableList on the JavaFX Application Thread
 	            Platform.runLater(() -> {
-
+	            	ArrayList<ProjectList> projects = ProjectManagementConsole.getProjList();
 	                // Update the ObservableList on a different thread
 	                rList.clear();
 	                

@@ -73,24 +73,24 @@ public class Login {
 	            			currentUser = users.get(i);
 	            			Poker.user = currentUser.getCode();
 	            			
-	            			if(currentUser.getPoker()!= null) {
-	            				Poker.sessionList = currentUser.getPoker();
-	            			}
-	            			
-	            			if(currentUser.getEffort()!= null) {
-	            				EffortConsole.effort = currentUser.getEffort();
-	            			}
-	            			
-	            			if(currentUser.getDefect()!= null) {
-	            				DefectConsole.defectList = currentUser.getDefect();
-	            			}
-	            			
-	            			if(currentUser.getProj()!= null) {
-	            				ProjectManagementConsole.projects = currentUser.getProj();
-	            			}
-	            			if(currentUser.getProjMap()!=null) {
-	            				ProjectManagementConsole.projMap = currentUser.getProjMap();
-	            			}
+//	            			if(currentUser.getPoker()!= null) {
+//	            				Poker.sessionList = currentUser.getPoker();
+//	            			}
+//	            			
+//	            			if(currentUser.getEffort()!= null) {
+//	            				EffortConsole.effort = currentUser.getEffort();
+//	            			}
+//	            			
+//	            			if(currentUser.getDefect()!= null) {
+//	            				DefectConsole.defectList = currentUser.getDefect();
+//	            			}
+//	            			
+//	            			if(currentUser.getProj()!= null) {
+//	            				ProjectManagementConsole.projects = currentUser.getProj();
+//	            			}
+//	            			if(currentUser.getProjMap()!=null) {
+//	            				ProjectManagementConsole.projMap = currentUser.getProjMap();
+//	            			}
 	            			
 	            			Dashboard.none.setText("No entries yet, Get Logging!!");
 	            			

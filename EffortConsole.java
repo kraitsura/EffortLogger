@@ -254,7 +254,6 @@ public class EffortConsole {
                 	secondsElapsed = 0;
                 	
                 	effort.add(data);
-                	Dashboard.resultView = Dashboard.resultPage(Dashboard.resultList, 1);
                 	keys.clear();
                 	window.setScene(set);
                 	

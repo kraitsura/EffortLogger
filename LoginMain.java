@@ -124,39 +124,58 @@ public class LoginMain {
 	            	//check if one of the text boxes is empty or not
 	            	if (nameText.getText().equals("") || emailText.getText().equals("") || usernameText2.getText().equals("") || passwordText2.getText().equals("")) {
 	            		createWarning.setText("One or more fields are empty.");
-	            	} else {
+	            	} else if (passwordText2.getText().length() < 8) {
+	            		createWarning.setText("Password length is " + passwordText2.getText().length() + " add " + (8 - passwordText2.getText().length())+ " more characters.");
+	            	}
+	            	else {
 	            		for (int i = 0; i < users.size(); i++) {
 	            			if (users.get(i).getUsername().equals(usernameText2.getText())) {
 	                			match = true;
 	                		}
 	            		}
-	            		if (match == false) {
-	            			//add to list
-	            			Random rand = new Random();
-	            			   
-	            	        // Generate random integers in range 0 to 999
-	            	        int rand_int = rand.nextInt(1000);
-	            	        //check if user code exists
-	            	        boolean match2 = true;
-	            	        while(match2)
-	            	        {
-	            	        	match2 = false;
-		            	        for (int i = 0; i < users.size(); i++) {
-			            			if (users.get(i).getCode() == rand_int) {
-			                			rand_int = rand.nextInt(1000); //make new code if user code exists
-			                			match2 = true;
-			                		}
-			            		}
-	            	        }
-	            	        
-	                		Users newUser = new Users(nameText.getText(), emailText.getText(), usernameText2.getText(), passwordText2.getText(), rand_int);
-	                		users.add(newUser);
-	                		createWarning.setText("Account created!! User Code: " + rand_int);
-	                		
-	            		} else {
-	            			//error message
-	                		createWarning.setText("Username already taken. Try again.");
+	            		int k = 0;
+	            		boolean charAmount = true;
+	            		for (int j = 0; j < passwordText2.getText().length(); j++) {
+	            			if (passwordText2.getText().substring(j, j+1).equals("@") || passwordText2.getText().substring(j, j+1).equals("#") 
+	            					|| passwordText2.getText().substring(j, j+1).equals("*") || passwordText2.getText().substring(j, j+1).equals("_")) {
+	            				k++;
+	            			}
 	            		}
+	            		if (k < 2) {
+	            			charAmount = false;
+	            		}
+	            		if (charAmount == false) {
+	            			createWarning.setText("Your password is missing at least 1 of the following: @, #, *, or _.");
+	            		} else {
+	            			if (match == false) {
+		            			//add to list
+		            			Random rand = new Random();
+		            			   
+		            	        // Generate random integers in range 0 to 999
+		            	        int rand_int = rand.nextInt(1000);
+		            	        //check if user code exists
+		            	        boolean match2 = true;
+		            	        while(match2)
+		            	        {
+		            	        	match2 = false;
+			            	        for (int i = 0; i < users.size(); i++) {
+				            			if (users.get(i).getCode() == rand_int) {
+				                			rand_int = rand.nextInt(1000); //make new code if user code exists
+				                			match2 = true;
+				                		}
+				            		}
+		            	        }
+		            	        
+		                		Users newUser = new Users(nameText.getText(), emailText.getText(), usernameText2.getText(), passwordText2.getText(), rand_int);
+		                		users.add(newUser);
+		                		createWarning.setText("Account created!! User Code: " + rand_int);
+		                		
+		            		} else {
+		            			//error message
+		                		createWarning.setText("Username already taken. Try again.");
+		            		}
+	            		}
+	            		
 	            	}
 	            	nameText.setText("");
 	            	emailText.setText("");

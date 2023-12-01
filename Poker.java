@@ -1,4 +1,4 @@
-package Main;
+package efV2;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,7 +37,7 @@ import javafx.util.Callback;
 
 public class Poker {
 	
-	static int user;
+	public static int user;
 	public static String project = "";
 	public static ArrayList<pokerEntry> shortList;
 	public static ArrayList<Entry> results = new ArrayList<>();
@@ -50,9 +50,7 @@ public class Poker {
 	public static Scene start(Stage window, Scene set)  {
 		
 		selectScreen();
-		if(LoginMain.currentUser!=null) {
-			user = LoginMain.currentUser.getCode();
-		}
+		
 		BorderPane poker = new BorderPane();
 		
 
@@ -159,7 +157,7 @@ public class Poker {
             
             	for (Map.Entry<String, ArrayList<pokerEntry>> entry : sessionList.entrySet()) {
                        Button button = new Button(entry.getKey());
-                       button.setMaxSize(10, 10);
+                       button.setMaxSize(100, 100);
                        out.getChildren().add(button);
                        button.setOnAction(new EventHandler<ActionEvent>() {
                     	   public void handle(ActionEvent event) {
@@ -228,8 +226,38 @@ public class Poker {
             }
 		});
 		
+		Label alert = new Label("");
 		
 		Button estimate = new Button("Estimate");
+		
+		estimate.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+            	
+            	if(handList == null || handList.isEmpty()) {
+            		alert.setText("Short List Empty!");
+            		return;
+            	}
+            	float avg = 0;
+            	int count = 0;
+            	for(int i = 0; i < handList.size(); i++) {
+            		if(handList.get(i).getEntry().getPoints() != 0) {
+            			count++;
+            			avg += handList.get(i).getEntry().getPoints();
+            		}
+            	}
+            	
+            	if(count == 0) {
+            		alert.setText("No Points Assigned!");
+            		return;
+            	}
+            	
+            	
+            	avg = avg/count;
+            	alert.setText(avg + "Points Esmitated.");
+            	
+            }
+		});
+		
 		
 		Text welcome = new Text();
 		welcome.setText("Planning Poker");
@@ -241,6 +269,7 @@ public class Poker {
 		main.add(welcome, 0, 0); main.add(end, 1, 0);
 		main.add(userStory, 0, 1);
 		main.add(estimate, 0, 2);
+		main.add(alert, 1, 2);
 		
 		main.setPadding(new Insets(5));
 		main.setVgap(10); main.setHgap(20);
@@ -248,23 +277,18 @@ public class Poker {
 	}
 	
 	//handle searched item being clicked to open more information 
-	public static void searchItemClick(Entry item) {
+	public static void searchItemClick(Entry item, int flag) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Entry");
 
 		
 		VBox layout = new VBox();
-		Button add = new Button("Add");
-		add.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-            	pokerEntry newItem = new pokerEntry(item, "");
-            	handList.add(newItem);
-            }
-        });
+		
 		
 		Text name = new Text("Task Name: ");
 		Text description = new Text("Description:\n");
+		Text time = new Text("Time Taken:\n");
 		Text points = new Text("Points: ");
 		Text notes = new Text("Notes:\n");
 		
@@ -273,17 +297,35 @@ public class Poker {
 			name.setText("Task Name: " + item.getName());
 		}
 		
+		if(item.getTime() != 0) {
+			time.setText("Time Take (in Mins): " + Math.round(item.getTime()/60));
+		}
+		
 		if(!item.getDes().equals("")) {
 			description.setText("Description:\n" + item.getDes());
 		}
 		
-		if(item.getPoints()!=666||item.getPoints()!=0){
+		if(item.getPoints()!=666){
 			points.setText("Points: " + item.getPoints());
 		}else {
 			points.setText("No Points Set");
 		}
 		
-		layout.getChildren().addAll(name, description, points, notes, add);
+		
+		if(flag == 0) {
+			Button add = new Button("Add");
+			add.setOnAction(new EventHandler<ActionEvent>() {
+	            public void handle(ActionEvent event) {
+	            	pokerEntry newItem = new pokerEntry(item, "", item.getTime());
+	            	handList.add(newItem);
+	            }
+	        });
+			layout.getChildren().addAll(name, description, time, points, notes, add);
+		}else if(flag == 1) {
+			layout.getChildren().addAll(name, description, time, points, notes);
+		}
+		
+		
 		layout.setPadding(new Insets(10));
 		layout.setSpacing(10);
 		
@@ -302,8 +344,8 @@ public class Poker {
 		VBox layout = new VBox();
 		Text name = new Text("Task Name: ");
 		Text description = new Text("Description:\n");
+		Text time = new Text("Time Taken:\n");
 		Text points = new Text("Points: ");
-		Text notes = new Text("Notes:\n");
 		Text pokerNotes = new Text();
 
 		
@@ -316,7 +358,12 @@ public class Poker {
 			description.setText("Description:\n" + item.getEntry().getDes());
 		}
 		
-		if(item.getEntry().getPoints()!=666||item.getEntry().getPoints()!=0){
+		if(item.getTime() != 0) {
+			time.setText("Time Take (in Mins): " + Math.round(item.getTime()/60));
+		}
+		
+		
+		if(item.getEntry().getPoints()!=666){
 			points.setText("Points: " + item.getEntry().getPoints());
 		}else {
 			points.setText("No Points Set");
@@ -325,7 +372,7 @@ public class Poker {
 			pokerNotes.setText("Planning Poker Notes:\n" + item.getNotes());
 		}
 		
-		layout.getChildren().addAll(name, description, points, notes, pokerNotes);
+		layout.getChildren().addAll(name, description, time, points, pokerNotes);
 		layout.setPadding(new Insets(10));
 		layout.setSpacing(10);
 		Scene scene = new Scene(layout, 300, 300);
@@ -494,7 +541,6 @@ public class Poker {
 		TextField searchBar = new TextField();
 		searchBar.setPromptText("Enter Keyword");
 		Label warning = new Label("");
-		Button add = new Button("Add");
 		
 		searchBox.setPadding(new Insets(10));
 		searchBox.setStyle("-fx-border-color: black; -fx-border-width: 1;");
@@ -504,47 +550,62 @@ public class Poker {
 		resultPage.setPadding(new Insets(10));
 		resultPage.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 		
+		ArrayList<EffortData> effortArray = EffortConsole.getEffort();
+		ArrayList<DefectData> defectArray = DefectConsole.getDefect();
+		
+		DefectData d = new DefectData();
+		d.setCategory("p");
+		d.setName("defect two");
 		
 		Button search = new Button("Search");
 		search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-            	ArrayList<EffortData> effortArray = EffortConsole.getEffort();
+            	
+            	if(effortArray.size() == 0) {
+            		warning.setText("No Data Available.");
+            		return;
+            	}
             	resultList.clear();
             	boolean match = false;
             	if (searchBar.getText().equals("")) {
+            		resultList.clear();
             		warning.setText("Showing All Data");
             		//print results from all effort and defect arraylists using userCode
             		//@Kendra Newman add search results to resultList
             		
             		//loop through entire effort array checking 
+            		
             		for (int i = 0; i < effortArray.size(); i++) {
             			if (user == effortArray.get(i).getUserCode()) {
-            				Entry entry = new Entry(effortArray.get(i).getTask(), effortArray.get(i).getDescription(), 666);
+            				Entry entry = new Entry(effortArray.get(i).getName(), effortArray.get(i).getDescription(), 666, effortArray.get(i).getTime(), "Effort");
                     		resultList.add(entry);
             			}
             		}
+            		
             	}
             	else {
             		String key = searchBar.getText();
             		
             		///print results from all effort and defect arraylists using key and userCode
             		//@Kendra Newman add search results to resultList
+            		resultList.clear();
             		
             		for (int i = 0; i < effortArray.size(); i++) {
             			if (user == effortArray.get(i).getUserCode()) {
             				ArrayList<String> keywordList = effortArray.get(i).getKeywords();
-            				for (int j = 0; j < keywordList.size(); j++) {
-            					if (keywordList.get(j).toLowerCase().contains(key.toLowerCase())) {
-            						match = true;
+            					if (keywordList.contains(key.toLowerCase())) {
+            						Entry entry = new Entry(effortArray.get(i).getName(), effortArray.get(i).getDescription(), 666,effortArray.get(i).getTime(), "Effort");
+                            		resultList.add(entry);
             					}
-            				}
-            				if (match == true) {
-            					Entry entry = new Entry(effortArray.get(i).getTask(), effortArray.get(i).getDescription(), 666);
-                        		resultList.add(entry);
-            				}
+            				
             			}
             		}
+            		
+            		if(resultList.size()==0) {
+            			warning.setText("No Data found. Try Another word!");
+            		}
             	}
+            
             }
         });
 		
@@ -565,7 +626,7 @@ public class Poker {
                         		setText(item.getName() + "\n" + item.getDes());
                         		setOnMouseClicked(event -> {
                                     if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
-                                    	searchItemClick(item);
+                                    	searchItemClick(item, 0);
                                     }
                                 });
                         	}else {
@@ -573,7 +634,7 @@ public class Poker {
                         		 // Handle mouse click events
                                 setOnMouseClicked(event -> {
                                     if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
-                                    	searchItemClick(item);
+                                    	searchItemClick(item, 0);
                                     }
                                 });
                         	}
@@ -598,4 +659,11 @@ public class Poker {
 		
 		return searchBox;
 	}
+	
+	public static Map<String, ArrayList<pokerEntry>> getSesh(){
+		Map<String, ArrayList<pokerEntry>> sessions = new HashMap<>(sessionList);
+
+		return sessions;
+	}
+
 }

@@ -1,8 +1,8 @@
-package Main;
+package efV2;
 
 //Aarya Reddy 
 
-import Main.LoginMain;
+import efV2.Login;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -60,19 +60,21 @@ public class twofactor {
             	}
             	else {
             		code = Integer.parseInt(input.getText());
-                	for (int i = 0; i < LoginMain.users.size(); i++) {
-            			if (LoginMain.users.get(i).getCode() == code && LoginMain.users.get(i).getUsername() == LoginMain.currentUser.getUsername()) {
+                	for (int i = 0; i < Login.users.size(); i++) {
+            			if (Login.users.get(i).getCode() == code && Login.users.get(i).getUsername() == Login.currentUser.getUsername()) {
                 			match = true;
                 		}
             		}
                 	
                 	if(match == true) {
+                		if(Login.currentUser != null) {
+            				Dashboard.hello.setText("Welcome " +  Login.currentUser.getName()+ ",");
+            			}
                 		window.close();
                 	}else {
                 		warning.setText("UserCode Incorrect. Please Retry!!");
                 	}
             	}
-        		
             }
         });
 		

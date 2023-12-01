@@ -1,12 +1,14 @@
-package Main;
+package efV2;
 
 public class pokerEntry {
 	 private Entry main;
 	 private String notes;
+	 private int time;
 	 
-	 public pokerEntry(Entry add, String notes) {
+	 public pokerEntry(Entry add, String notes, int time) {
 		this.main = add;
 		this.notes = notes;
+		this.time = time;
 	 }
 	 
 	 public Entry getEntry() {
@@ -17,5 +19,9 @@ public class pokerEntry {
 	 }
 	 public void setNotes(String notes) {
 		 this.notes = notes;
+	 }
+
+	 public int getTime() {
+		return time;
 	 }
 }

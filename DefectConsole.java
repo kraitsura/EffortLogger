@@ -13,9 +13,6 @@ import javafx.scene.layout.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import efV2.Login;
-import efV2.DefectData;
-
 import java.util.ArrayList;
 
 public class DefectConsole {
@@ -177,4 +174,11 @@ public class DefectConsole {
 
         return grid;
     }
+    
+
+	public static ArrayList<DefectData> getDefect() {
+		return defectList;
+	}
+    
+    
 }

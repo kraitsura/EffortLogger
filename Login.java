@@ -6,12 +6,24 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.util.Random;
 
@@ -23,13 +35,13 @@ public class Login {
 	public static Users currentUser;
 	
 	public static Scene start(Stage window, Scene set) {
-			
-	        Label heading = new Label();
-	        heading.setText("EffortLogger");
 	        
 	        //login section
 	        Label login = new Label();
 	        login.setText("Login");
+	        login.setStyle("-fx-text-fill:black;-fx-font-size:25px;");
+	        login.setTextAlignment(TextAlignment.CENTER);
+	        login.setAlignment(Pos.CENTER);
 	        Label username1 = new Label();
 	        username1.setText("Username");
 	        TextArea usernameText1 = new TextArea();
@@ -59,6 +71,32 @@ public class Login {
 	            		if ((users.get(i).getUsername().equals(usernameText1.getText())) && (users.get(i).getPassword().equals(passwordText1.getText()))) {
 	            			match = true;
 	            			currentUser = users.get(i);
+	            			Poker.user = currentUser.getCode();
+	            			
+	            			if(currentUser.getPoker()!= null) {
+	            				Poker.sessionList = currentUser.getPoker();
+	            			}
+	            			
+	            			if(currentUser.getEffort()!= null) {
+	            				EffortConsole.effort = currentUser.getEffort();
+	            			}
+	            			
+	            			if(currentUser.getDefect()!= null) {
+	            				DefectConsole.defectList = currentUser.getDefect();
+	            			}
+	            			
+	            			if(currentUser.getProj()!= null) {
+	            				ProjectManagementConsole.projects = currentUser.getProj();
+	            			}
+	            			if(currentUser.getProjMap()!=null) {
+	            				ProjectManagementConsole.projMap = currentUser.getProjMap();
+	            			}
+	            			
+	            			Dashboard.none.setText("No entries yet, Get Logging!!");
+	            			
+//	            			if(Dashboard.timelines.size()>0) {
+//	            				Dashboard.startAllTimeLines();
+//	            			}	            			
 	            		}
 	            	}
 	            	
@@ -82,6 +120,7 @@ public class Login {
 	        //create account section
 	        Label create = new Label();
 	        create.setText("Create Account");
+	        create.setStyle("-fx-text-fill:black;-fx-font-size:25px;");
 	        Label name = new Label();
 	        name.setText("Name");
 	        TextArea nameText = new TextArea();
@@ -150,6 +189,11 @@ public class Login {
 	            	        }
 	            	        
 	                		Users newUser = new Users(nameText.getText(), emailText.getText(), usernameText2.getText(), passwordText2.getText(), rand_int);
+	                		newUser.setDefect(null);
+	                		newUser.setEffort(null);
+	                		newUser.setPoker(null);
+	                		newUser.setProj(null);
+	                		newUser.setProjMap(null);
 	                		users.add(newUser);
 	                		createWarning.setText("Account created!! User Code: " + rand_int);
 	                		
@@ -169,8 +213,8 @@ public class Login {
 	        
 	        //grid pane and stack pane stuff:
 	        GridPane grid = new GridPane();
-	        StackPane root = new StackPane();
-	        grid.add(heading, 0, 0);
+	        BorderPane root = new BorderPane();
+	        grid.setPadding(new Insets(10));
 	        grid.add(login, 0, 1);
 	        grid.add(username1, 0, 2);
 	        grid.add(usernameText1, 1, 2);
@@ -190,16 +234,26 @@ public class Login {
 	        grid.add(passwordText2, 1, 10);
 	        grid.add(createButton, 0, 11);
 	        grid.add(createWarning, 0, 12);
-	        root.getChildren().add(grid);
-        Scene scene = new Scene(root, 750,750);
+	        
+	        grid.setPrefWidth(300);
+	        
+	        Text welcome = new Text();
+			welcome.setText("Welcome to \nEffortLoggerV2");
+			welcome.setFont(Font.font("helvetica", FontWeight.THIN, FontPosture.ITALIC, 30));
+			
+	        root.setLeft(welcome);
+	        BorderPane.setAlignment(welcome, Pos.CENTER);
+	        root.setRight(grid);
+			root.setBackground(new Background(new BackgroundFill(Color.AZURE, CornerRadii.EMPTY, Insets.EMPTY)));
+	        
+        Scene scene = new Scene(root, 600,450);
         return scene;
 	}
 	
 	// Orion: Added getter for the userlist
-	public static ArrayList<Users> getUsersList() {
-		return users;
-	}
-	
+		public static ArrayList<Users> getUsersList() {
+			return users;
+		}
 }
 
 

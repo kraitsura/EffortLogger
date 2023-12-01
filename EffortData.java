@@ -1,14 +1,13 @@
-package Main;
-
-//Viet Le
+package efV2;
 
 import java.util.ArrayList;
 
 public class EffortData {
 	private int time;
+	private String name;
 	private String task;
 	private String description;
-	private ArrayList<String> keyWords;
+	private ArrayList<String> keyWords = new ArrayList<>();
 	private int userCode;
 	
 	public EffortData() {
@@ -17,6 +16,9 @@ public class EffortData {
 //		this.description = description;
 //		this.keyWords = keyWords;
 //		this.userCode = userCode;
+	}
+	public String getName() {
+		return name;
 	}
 	public int getTime() {
 		return time;
@@ -33,6 +35,9 @@ public class EffortData {
 	public int getUserCode() {
 		return userCode;
 	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public void setTime(int time) {
 		this.time = time;
 	}
@@ -43,8 +48,10 @@ public class EffortData {
 		this.description = description;
 	}
 	public void addKeyword(String keyword) {
-		this.keyWords = new ArrayList<String>();
 		this.keyWords.add(keyword);
+	}
+	public void setKeyword(ArrayList<String> keys) {
+		this.keyWords = keys;
 	}
 	public void setUser(int code) {
 		this.userCode = code;
